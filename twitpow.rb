@@ -18,6 +18,6 @@ elsif ARGV[0] == 'friends'
   tweets = Tweet.new
   tweets.friends
 else
-  puts "Options: updates, previous"
+  puts "Usage: ruby twitpow.rb [options]. \noptions: friends, history [no of tweets]"
 end
 

@@ -3,7 +3,8 @@ class Tweet
     @twitterrc = File.join(ENV['HOME'], '.twitter')
     @config = YAML.load(File.read(@twitterrc))
     @since_id = @config['last_recent_id']
-    @store = PStore.new('tweets')
+    tweets = File.dirname(__FILE__) + '/tweets'
+    @store = PStore.new(tweets)
     @username = 'jasonong'
 
     @timeline_options = {}
