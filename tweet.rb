@@ -8,7 +8,7 @@ class Tweet
     @username = @config['username']
 
     @timeline_options = {}
-    @timeline_options[:since_id] =  @since_id
+    @timeline_options[:since_id] =  3781379748#@since_id
     @timeline_options[:count] = 200
   end
 
@@ -23,8 +23,9 @@ class Tweet
     @timeline.each do |status|
       user = status['user']
       status_id = status['id']
+      created_at = Time.parse(status['created_at']).strftime("%a %I:%M%P")
       @store.transaction do 
-        string = "#{status_id.to_s.blue} #{user['name'].green.bold} #{user['screen_name'].red}: #{status['text'].yellow}"
+        string = "#{status_id.to_s.blue} #{created_at.to_s.blue} #{user['name'].green.bold} #{user['screen_name'].red}: #{status['text'].yellow}"
         @store[status_id] = string
         puts string
       end
@@ -37,7 +38,7 @@ class Tweet
   def history(no_of_tweets = 50)
     n = 1
     @store.transaction do 
-      @store.roots.each do |index|
+      @store.roots.sort.each do |index|
         puts @store[index]
         break if n == no_of_tweets.to_i
         n += 1

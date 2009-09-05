@@ -4,6 +4,7 @@ require 'httparty'
 require 'yaml'
 require 'term/ansicolor'
 require 'pstore'
+require 'date'
 
 include Term::ANSIColor
 
