@@ -5,7 +5,7 @@ class Tweet
     @since_id = @config['last_recent_id']
     tweets = File.dirname(__FILE__) + '/tweets'
     @store = PStore.new(tweets)
-    @username = 'jasonong'
+    @username = @config['username']
 
     @timeline_options = {}
     @timeline_options[:since_id] =  @since_id
