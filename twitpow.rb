@@ -27,6 +27,6 @@ elsif ARGV[0] == 'mentions'
   tweets = Tweet.new
   tweets.mentions
 else
-  puts "\nUsage: \nruby twitpow.rb [options] \n\noptions: \n- friends \n- mentions \n- history [no of tweets] \n- history search [query]\n\n"
+  puts "\nUsage: \nruby twitpow.rb [options] \n\nOptions: \n- friends \n- mentions \n- history [no of tweets] \n- history search [query]\n\n"
 end
 
