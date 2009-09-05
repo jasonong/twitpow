@@ -45,12 +45,17 @@ class Tweet
     File.open(@twitterrc, 'w'){|file| YAML.dump(@config, file) }
   end
 
-  def history(no_of_tweets = 50)
+  def history(no_of_tweets = 50, query = nil)
     n = 1
     @store.transaction do 
       @store.roots.sort.each do |index|
-        puts @store[index]
-        break if n == no_of_tweets.to_i
+        message = @store[index]
+        if query
+          puts message if message =~ /.+#{query}.+/
+        else
+          puts message
+        end
+        break if n == no_of_tweets.to_i && query == nil
         n += 1
       end
     end
