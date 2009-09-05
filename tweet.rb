@@ -5,7 +5,11 @@ class Tweet
     tweets = File.dirname(__FILE__) + '/tweets'
     @store = PStore.new(tweets)
     @username = @config['username']
+  end
 
+  def post(text)
+    @twitter = Twitter.new(@username)
+    @twitter.post(text) 
   end
 
   def timeline_options(since_id_type)

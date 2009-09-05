@@ -26,6 +26,16 @@ elsif ARGV[0] == 'friends'
 elsif ARGV[0] == 'mentions'
   tweets = Tweet.new
   tweets.mentions
+elsif ARGV[0] == 'update'
+  text = ARGV[1]
+    puts text
+  if text && text.size > 0 && text.size <= 140
+    tweets = Tweet.new
+    tweets.post(text)
+  else
+    extra_chars = text.size - 140
+    puts "Hey! You're writing an essay? Overshot by #{extra_chars} characters."
+  end
 else
   puts "\nUsage: \nruby twitpow.rb [options] \n\nOptions: \n- friends \n- mentions \n- history [no of tweets] \n- history search [query]\n\n"
 end
