@@ -13,6 +13,11 @@ class Twitter
     options.merge!({:basic_auth => @auth})
     self.class.get("/statuses/#{which}_timeline.json", options)
   end
+
+  def mentions(options={})
+    options.merge!({:basic_auth => @auth})
+    self.class.get("/statuses/mentions.json", options)
+  end
         
   def post(text)
     options = { :query => {:status => text}, :basic_auth => @auth }

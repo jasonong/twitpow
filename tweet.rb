@@ -2,23 +2,33 @@ class Tweet
   def initialize
     @twitterrc = File.join(ENV['HOME'], '.twitter')
     @config = YAML.load(File.read(@twitterrc))
-    @since_id = @config['last_recent_id']
     tweets = File.dirname(__FILE__) + '/tweets'
     @store = PStore.new(tweets)
     @username = @config['username']
 
+  end
+
+  def timeline_options(since_id_type)
     @timeline_options = {}
-    @timeline_options[:since_id] =  3781379748#@since_id
+    @timeline_options[:since_id] =  @config[since_id_type]
     @timeline_options[:count] = 200
   end
 
   def friends
     @twitter = Twitter.new(@username)
+    timeline_options('last_recent_id')
     @timeline = @twitter.timeline(:friends, :query => @timeline_options)
-    store
+    store('last_recent_id')
+  end
+
+  def mentions
+    @twitter = Twitter.new(@username)
+    timeline_options('last_mention_id')
+    @timeline = @twitter.mentions(:query => @timeline_options)
+    store('last_mention_id')
   end
   
-  def store
+  def store(since_id_type)
     n = 0
     @timeline.each do |status|
       user = status['user']
@@ -29,7 +39,7 @@ class Tweet
         @store[status_id] = string
         puts string
       end
-      @config['last_recent_id'] = status_id if n == 0
+      @config[since_id_type] = status_id if n == 0
       n += 1
     end
     File.open(@twitterrc, 'w'){|file| YAML.dump(@config, file) }

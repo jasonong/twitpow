@@ -4,7 +4,7 @@ require 'httparty'
 require 'yaml'
 require 'term/ansicolor'
 require 'pstore'
-require 'date'
+require 'time'
 
 include Term::ANSIColor
 
@@ -18,6 +18,9 @@ if ARGV[0] == 'history'
 elsif ARGV[0] == 'friends'
   tweets = Tweet.new
   tweets.friends
+elsif ARGV[0] == 'mentions'
+  tweets = Tweet.new
+  tweets.mentions
 else
   puts "Usage: ruby twitpow.rb [options]. \noptions: friends, history [no of tweets]"
 end
