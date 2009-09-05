@@ -39,7 +39,7 @@ class Tweet
       status_id = status['id']
       created_at = Time.parse(status['created_at']).strftime("%a %I:%M%P")
       @store.transaction do 
-        string = "#{status_id.to_s.blue} #{created_at.to_s.blue} #{user['name'].green.bold} #{user['screen_name'].red}: #{status['text'].yellow}"
+        string = "#{status_id.to_s.blue} #{created_at.to_s.blue} #{user['name'].cyan} #{user['screen_name'].red}: #{status['text'].yellow}"
         @store[status_id] = string
         puts string
       end
