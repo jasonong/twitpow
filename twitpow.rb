@@ -41,6 +41,12 @@ elsif ARGV[0] == 'reply'
     tweets = Tweet.new
     tweets.reply(status_id)
   end
+elsif ARGV[0] == 'retweet'
+  status_id = ARGV[1]
+  if status_id
+    tweets = Tweet.new
+    tweets.retweet(status_id)
+  end  
 elsif ARGV[0] == 'user'
   screen_name = ARGV[1]
   if screen_name

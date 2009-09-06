@@ -17,14 +17,31 @@ class Tweet
 
   def reply(reply_to_status_id)
     @store.transaction do
-      status = @store[reply_to_status_id.to_i]
-      screen_name = status.match(/\e\[31m[\w]+\e\[0m/)[0].gsub(/\e\[31m/, '').gsub(/\e\[0m/, '')
-      puts screen_name
+      status = @store[reply_to_status_id.to_i].uncolored
+      screen_name = status.match(/[\s]?[\w]+:[\s]/)[0].gsub(':', '').strip
       text = "@#{screen_name} "
       message = ask("Reply to: #{status}"){|q| q.echo = true}
       text += message
       if message.size > 0 && text.size <= 140
         post(text, reply_to_status_id)
+        puts text
+      else
+        extra_chars = 140 - text.size
+        puts "I can haz no tweet longer than 140 chars! Overshot by #{extra_chars}..."
+      end
+    end
+  rescue
+    puts "I can get no status!"
+  end
+
+  def retweet(reply_to_status_id)
+    @store.transaction do
+      status = @store[reply_to_status_id.to_i].uncolored
+      puts status
+      message = status.match(/:[\s].[\w].+$/)[0].sub(': ', '')
+      text = "RT #{message}"
+      if text.size <= 140
+        post(text)    
         puts text
       else
         extra_chars = 140 - text.size
