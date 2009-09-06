@@ -17,10 +17,11 @@ class Tweet
 
   def reply(reply_to_status_id)
     @store.transaction do
-      status = @store[reply_to_status_id.to_i].uncolored
+      colored_status = @store[reply_to_status_id.to_i].uncolored
+      status = colored_status.uncolored
       screen_name = status.match(/[\s]?[\w]+:[\s]/)[0].gsub(':', '').strip
       text = "@#{screen_name} "
-      message = ask("Reply to: #{status}"){|q| q.echo = true}
+      message = ask("Reply to: #{colored_status}"){|q| q.echo = true}
       text += message
       if message.size > 0 && text.size <= 140
         post(text, reply_to_status_id)
