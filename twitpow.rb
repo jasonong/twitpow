@@ -35,6 +35,12 @@ elsif ARGV[0] == 'update'
     extra_chars = text.size - 140
     puts "Hey! You're writing an essay? Overshot by #{extra_chars} characters."
   end
+elsif ARGV[0] == 'reply'
+  status_id = ARGV[1]
+  if status_id
+    tweets = Tweet.new
+    tweets.reply(status_id)
+  end
 elsif ARGV[0] == 'user'
   screen_name = ARGV[1]
   if screen_name

@@ -7,9 +7,32 @@ class Tweet
     @username = @config['username']
   end
 
-  def post(text)
+  def post(text, reply_to_status_id = nil)
     @twitter = Twitter.new(@username)
-    @twitter.post(text) 
+    options = {:query => {}}
+    options[:query][:status] = text
+    options[:query][:in_reply_to_status_id] = reply_to_status_id if reply_to_status_id
+    @twitter.post(options) 
+  end
+
+  def reply(reply_to_status_id)
+    @store.transaction do
+      status = @store[reply_to_status_id.to_i]
+      screen_name = status.match(/\e\[31m[\w]+\e\[0m/)[0].gsub(/\e\[31m/, '').gsub(/\e\[0m/, '')
+      puts screen_name
+      text = "@#{screen_name} "
+      message = ask("Reply to: #{status}"){|q| q.echo = true}
+      text += message
+      if message.size > 0 && text.size <= 140
+        post(text, reply_to_status_id)
+        puts text
+      else
+        extra_chars = 140 - text.size
+        puts "I can haz no tweet longer than 140 chars! Overshot by #{extra_chars}..."
+      end
+    end
+  rescue
+    puts "I can get no status!"
   end
 
   def user(screen_name)

@@ -19,8 +19,8 @@ class Twitter
     self.class.get("/statuses/mentions.json", options)
   end
         
-  def post(text)
-    options = { :query => {:status => text}, :basic_auth => @auth }
+  def post(options)
+    options.merge!({:basic_auth => @auth})
     self.class.post('/statuses/update.json', options)
   end
 
