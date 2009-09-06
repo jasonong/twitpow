@@ -23,4 +23,9 @@ class Twitter
     options = { :query => {:status => text}, :basic_auth => @auth }
     self.class.post('/statuses/update.json', options)
   end
+
+  def users(which=:show, options={})
+    options.merge!({:basic_auth => @auth})
+    self.class.get("/users/#{which}.json", options)
+  end
 end

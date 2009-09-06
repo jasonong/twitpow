@@ -12,6 +12,20 @@ class Tweet
     @twitter.post(text) 
   end
 
+  def user(screen_name)
+    @twitter = Twitter.new(@username) 
+    user = @twitter.users(:show, :query => {:screen_name => screen_name})
+    user.each do |key, value| 
+      if key == 'status'
+        time = Time.parse(value['created_at']).strftime("%a %I:%M%P")
+        puts "#{key.cyan}: #{time.blue} #{value['text'].yellow}"
+      else
+        puts "#{key.cyan}: #{value.to_s.yellow}"
+      end
+    end
+    puts "\n"
+  end
+
   def timeline_options(since_id_type)
     @timeline_options = {}
     @timeline_options[:since_id] =  @config[since_id_type]
