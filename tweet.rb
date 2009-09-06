@@ -26,7 +26,7 @@ class Tweet
         post(text, reply_to_status_id)
         puts text
       else
-        extra_chars = 140 - text.size
+        extra_chars = text.size - 140
         puts "I can haz no tweet longer than 140 chars! Overshot by #{extra_chars}..."
       end
     end
@@ -40,12 +40,15 @@ class Tweet
       puts status
       message = status.match(/:[\s].[\w].+$/)[0].sub(': ', '')
       text = "RT #{message}"
+      string_to_prepend = STDIN.gets
+      text = "#{string_to_prepend.chomp} #{text}"
       if text.size <= 140
         post(text)    
         puts text
       else
-        extra_chars = 140 - text.size
-        puts "I can haz no tweet longer than 140 chars! Overshot by #{extra_chars}..."
+        extra_chars = text.size - 140
+        puts "I can haz no tweet longer than 140 chars! Overshot by #{extra_chars} chars! Try again!"
+        puts text
       end
     end
   rescue
