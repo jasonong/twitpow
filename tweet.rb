@@ -39,8 +39,9 @@ class Tweet
     @store.transaction do
       status = @store[reply_to_status_id.to_i].uncolored
       puts status
+      screen_name = status.match(/[\s]?[\w]+:[\s]/)[0].gsub(':', '').strip
       message = status.match(/:[\s].[\w].+$/)[0].sub(': ', '')
-      text = "RT #{message}"
+      text = "RT @#{screen_name} #{message}"
       string_to_prepend = STDIN.gets
       text = "#{string_to_prepend.chomp} #{text}"
       if text.size <= 140
