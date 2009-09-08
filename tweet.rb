@@ -111,7 +111,7 @@ class Tweet
   def history(no_of_tweets = 50, query = nil)
     n = 1
     @store.transaction do 
-      @store.roots.sort.each do |index|
+      @store.roots.sort{|a,b| b <=> a}.each do |index|
         message = @store[index]
         if query
           puts message if message =~ /.+#{query}.+/
