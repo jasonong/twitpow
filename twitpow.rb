@@ -8,8 +8,9 @@ require 'time'
 
 include Term::ANSIColor
 
-require 'twitterer'
-require 'tweet'
+current_dir = File.dirname(__FILE__)
+require "#{current_dir}/twitterer"
+require "#{current_dir}/tweet"
 
 if ARGV[0] == 'history'
   tweets = Tweet.new
