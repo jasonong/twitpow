@@ -55,6 +55,19 @@ elsif ARGV[0] == 'user'
     tweets.user(screen_name) 
   end
 else
-  puts "\nUsage: \nruby twitpow.rb [options] \n\nOptions: \n- friends \n- mentions \n- history [no of tweets] \n- history search [query]\n\n"
+  puts """
+Usage: 
+ruby twitpow.rb [options] 
+
+Options: 
+- friends 
+- mentions
+- update [tweet]
+- reply [status id]
+- retweet [status id]
+- history [no of tweets] 
+- history search [query]
+
+"""
 end
 
