@@ -1,4 +1,6 @@
 require 'rubygems'
+require 'bundler/setup'
+
 require 'highline/import'
 require 'httparty'
 require 'yaml'
@@ -17,7 +19,7 @@ if ARGV[0] == 'history'
   no_of_tweets = nil
   if ARGV[1] == 'search'
     query = ARGV[2]
-  else  
+  else
     no_of_tweets = ARGV[1]
   end
   tweets.history(no_of_tweets, query)
@@ -47,25 +49,25 @@ elsif ARGV[0] == 'retweet'
   if status_id
     tweets = Tweet.new
     tweets.retweet(status_id)
-  end  
+  end
 elsif ARGV[0] == 'user'
   screen_name = ARGV[1]
   if screen_name
-    tweets = Tweet.new 
-    tweets.user(screen_name) 
+    tweets = Tweet.new
+    tweets.user(screen_name)
   end
 else
   puts """
-Usage: 
-ruby twitpow.rb [options] 
+Usage:
+ruby twitpow.rb [options]
 
-Options: 
-- friends 
+Options:
+- friends
 - mentions
 - update [tweet]
 - reply [status id]
 - retweet [status id]
-- history [no of tweets] 
+- history [no of tweets]
 - history search [query]
 
 """
