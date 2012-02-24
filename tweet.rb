@@ -12,7 +12,7 @@ class Tweet
     options = {:query => {}}
     options[:query][:status] = text
     options[:query][:in_reply_to_status_id] = reply_to_status_id if reply_to_status_id
-    @twitter.post(options) 
+    @twitter.post(options)
   end
 
   def reply(reply_to_status_id)
@@ -45,7 +45,7 @@ class Tweet
       string_to_prepend = STDIN.gets
       text = "#{string_to_prepend.chomp} #{text}"
       if text.size <= 140
-        post(text)    
+        post(text)
         puts text
       else
         extra_chars = text.size - 140
@@ -58,9 +58,9 @@ class Tweet
   end
 
   def user(screen_name)
-    @twitter = Twitter.new(@username) 
+    @twitter = Twitter.new(@username)
     user = @twitter.users(:show, :query => {:screen_name => screen_name})
-    user.each do |key, value| 
+    user.each do |key, value|
       if key == 'status'
         time = Time.parse(value['created_at']).strftime("%a %I:%M%P")
         puts "#{key.cyan}: #{time.blue} #{value['text'].yellow}"
@@ -90,14 +90,14 @@ class Tweet
     @timeline = @twitter.mentions(:query => @timeline_options)
     store('last_mention_id')
   end
-  
+
   def store(since_id_type)
     n = 0
     @timeline.each do |status|
       user = status['user']
       status_id = status['id']
       created_at = Time.parse(status['created_at']).strftime("%a %I:%M%P")
-      @store.transaction do 
+      @store.transaction do
         string = "#{status_id.to_s.blue} #{created_at.to_s.blue} #{user['name'].cyan} #{user['screen_name'].red}: #{status['text'].yellow}"
         @store[status_id] = string
         puts string
@@ -110,7 +110,7 @@ class Tweet
 
   def history(no_of_tweets = 50, query = nil)
     n = 1
-    @store.transaction do 
+    @store.transaction do
       @store.roots.sort{|a,b| b <=> a}.each do |index|
         message = @store[index]
         if query
