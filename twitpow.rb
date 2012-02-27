@@ -1,8 +1,8 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'twitter'
 require 'highline/import'
-require 'httparty'
 require 'yaml'
 require 'term/ansicolor'
 require 'pstore'

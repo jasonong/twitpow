@@ -1,31 +1,9 @@
-class Twitter
-  include HTTParty
-  base_uri 'twitter.com'
-      
-  def initialize(u)
-    password = ask("Enter Password") {|q| q.echo = false}
-    @auth = {:username => u, :password => password}
-  end
-        
-  # which can be :friends, :user or :public
-  # options[:query] can be things like since, since_id, count, etc.
-  def timeline(which=:friends, options={})
-    options.merge!({:basic_auth => @auth})
-    self.class.get("/statuses/#{which}_timeline.json", options)
-  end
+Twitter.configure do |config|
+  twitterrc = File.join(ENV['HOME'], '.twitter')
+  twitpowrc = YAML.load(File.read(twitterrc))
 
-  def mentions(options={})
-    options.merge!({:basic_auth => @auth})
-    self.class.get("/statuses/mentions.json", options)
-  end
-        
-  def post(options)
-    options.merge!({:basic_auth => @auth})
-    self.class.post('/statuses/update.json', options)
-  end
-
-  def users(which=:show, options={})
-    options.merge!({:basic_auth => @auth})
-    self.class.get("/users/#{which}.json", options)
-  end
+  config.consumer_key = twitpowrc['consumer_key']
+  config.consumer_secret = twitpowrc['consumer_secret']
+  config.oauth_token = twitpowrc['oauth_token']
+  config.oauth_token_secret = twitpowrc['oauth_token_secret']
 end

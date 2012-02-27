@@ -73,14 +73,14 @@ class Tweet
 
   def timeline_options(since_id_type)
     @timeline_options = {}
-    @timeline_options[:since_id] =  @config[since_id_type]
+    @timeline_options[:since_id] =  @config[since_id_type] if @config[since_id_type]
     @timeline_options[:count] = 200
   end
 
   def friends
-    @twitter = Twitter.new(@username)
     timeline_options('last_recent_id')
-    @timeline = @twitter.timeline(:friends, :query => @timeline_options)
+    @timeline = Twitter.home_timeline(@timeline_options)
+    p @timeline
     store('last_recent_id')
   end
 
@@ -96,7 +96,8 @@ class Tweet
     @timeline.each do |status|
       user = status['user']
       status_id = status['id']
-      created_at = Time.parse(status['created_at']).strftime("%a %I:%M%P")
+      # time = Date.parse(status['created_at'])
+      created_at = status['created_at'].strftime("%a %I:%M%P")
       @store.transaction do
         string = "#{status_id.to_s.blue} #{created_at.to_s.blue} #{user['name'].cyan} #{user['screen_name'].red}: #{status['text'].yellow}"
         @store[status_id] = string

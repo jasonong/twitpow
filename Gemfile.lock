@@ -1,18 +1,31 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    activesupport (3.2.1)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
+    addressable (2.2.7)
+    faraday (0.7.6)
+      addressable (~> 2.2)
+      multipart-post (~> 1.1)
+      rack (~> 1.1)
     highline (1.6.11)
-    httparty (0.8.1)
-      multi_json
-      multi_xml
+    i18n (0.6.0)
     multi_json (1.1.0)
-    multi_xml (0.4.1)
+    multipart-post (1.1.5)
+    rack (1.4.1)
+    simple_oauth (0.1.5)
     term-ansicolor (1.0.7)
+    twitter (2.1.0)
+      activesupport (>= 2.3.9, < 4)
+      faraday (~> 0.7)
+      multi_json (~> 1.0)
+      simple_oauth (~> 0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   highline
-  httparty
   term-ansicolor
+  twitter
