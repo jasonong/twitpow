@@ -8,7 +8,7 @@ History
 
 I spend most time during the day in the terminal and wanted a way to use twitter inside it.
 
-Hacked over a weekend in 2009.
+Hacked over a weekend in 2009. Revived in 2012.
 
 Todos
 -----
