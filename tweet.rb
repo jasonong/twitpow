@@ -7,12 +7,8 @@ class Tweet
     @username = @config['username']
   end
 
-  def post(text, reply_to_status_id = nil)
-    @twitter = Twitter.new(@username)
-    options = {:query => {}}
-    options[:query][:status] = text
-    options[:query][:in_reply_to_status_id] = reply_to_status_id if reply_to_status_id
-    @twitter.post(options)
+  def post(text)
+    Twitter.update(text)
   end
 
   def reply(reply_to_status_id)
@@ -80,7 +76,6 @@ class Tweet
   def friends
     timeline_options('last_recent_id')
     @timeline = Twitter.home_timeline(@timeline_options)
-    p @timeline
     store('last_recent_id')
   end
 
